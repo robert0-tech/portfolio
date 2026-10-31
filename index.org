@@ -1,0 +1,43 @@
+#+TITLE: Roberto Casado
+#+AUTHOR: Roberto Casado
+#+OPTIONS: toc:nil num:nil html-postamble:nil
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="style.css" />
+#+HTML_HEAD: <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+* System Administrator / Software engineer
+Especializado en linux, redes,  automatización de sistemas y herramientas internas.
+Enfocado en escribir código limpio, eficiente y fácil de mantener utilizando entornos Unix.
+
+* Contacto
+- *Ubicación:* Sønderborg, Denmark
+- [[https://github.com/robert0-tech][Github]]
+- [[https://codeberg.org/robert0][Codeberg]]
+- [[https://linkedin.com/in/tu-usuario][Linkedin]]
+- *Email:* 
+
+* Proyectos y Código Abierto
+** [[https://github.com/tu-usuario/proyecto-uno][Proyecto Uno]]
+Herramienta en línea de comandos para automatizar flujos de trabajo locales.
+- *Problema resuelto:* Elimina tareas repetitivas en el despliegue de configuraciones.
+- *Stack:* Bash, Guile Scheme, Make.
+
+* Experiencia Profesional
+** Desarrollador Backend — [Nombre de Empresa] (2024 — Presente)
+- Refactorización de servicios críticos reduciendo el consumo de memoria en un 30%.
+- Mantenimiento y desarrollo de pipelines de CI/CD para despliegues automatizados.
+
+** Software Engineer — [Nombre de Empresa] (2022 — 2024)
+- Desarrollo de funcionalidades clave para aplicaciones internas utilizando Python y SQL.
+- Colaboración activa con el equipo de frontend para definir contratos de API.
+
+
+
+* certifications
+LPIC-1 (Linux Professional Institute) | Previously certified / Core Linux proficiency maintained
+LPIC-2 (Linux Professional Institute) | Previously certified / Core Linux proficiency maintained
+Certified Ethical Hacker (CEH vX) | Previously certified / Network security fundamentals
+
+* Habilidades
+- *Lenguajes:* Golang, C#, Bash, SQL.
+- *Herramientas:* GNU/Linux, Git, Docker, CI/CD (GitHub Actions).
+- *Knowledge:* Networking, security (CEH) , linux (LPIC).

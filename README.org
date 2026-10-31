@@ -1,0 +1,128 @@
+#+TITLE: Portfolio
+#+AUTHOR: Roberto Casado
+#+PROPERTY: header-args :mkdirp yes
+
+Este repositorio contiene el código fuente y la infraestructura de mi portafolio profesional y currículum vitae. 
+El sitio está construido con una filosofía minimalista: texto plano, cero dependencias de JavaScript en el cliente y generación estática pura mediante =Org-mode= y =Emacs=.
+
+* Estructura del Proyecto
+
+El contenido está separado de la infraestructura técnica:
+
+- [[./index.org][index.org]] :: Contenido fuente (currículum, contacto y proyectos). *Edita este archivo para actualizar la web.*
+- =style.css= :: Hoja de estilos (generada automáticamente desde este README).
+- =.github/workflows/deploy.yml= :: Pipeline de despliegue (generado automáticamente desde este README).
+
+* Infraestructura y Estilos (Literate Programming)
+
+Los siguientes bloques definen la configuración técnica del proyecto. Para extraerlos a sus respectivos archivos, abre este documento en Emacs y ejecuta =M-x org-babel-tangle= (=C-c C-v t=).
+
+** Pipeline de CI/CD (GitHub Actions)
+Este flujo de trabajo instala Emacs en un contenedor de Ubuntu, compila =index.org= a HTML y lo publica en GitHub Pages cada vez que se hace push a la rama =main=.
+
+#+begin_src yaml-ts :tangle .github/workflows/deploy.yml
+name: Desplegar Portafolio a GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Instalar Emacs
+        run: sudo apt-get update && sudo apt-get install -y emacs-nox
+
+      - name: Compilar Org a HTML
+        run: |
+          emacs index.org --batch -f org-html-export-to-html --kill
+          mkdir -p dist
+          mv index.html style.css dist/
+
+      - name: Subir artefacto de Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Desplegar a GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+#+end_src
+
+** Diseño Visual (CSS)
+Hoja de estilos minimalista (classless) enfocada en la legibilidad, la tipografía y el soporte nativo para el modo oscuro del sistema operativo.
+
+#+begin_src css-ts :tangle style.css
+:root {
+  --bg: #ffffff;
+  --text: #1a1a1a;
+  --muted: #555555;
+  --link: #0969da;
+  --border: #e1e4e8;
+  --code-bg: #f6f8fa;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1117;
+    --text: #c9d1d9;
+    --muted: #8b949e;
+    --link: #58a6ff;
+    --border: #30363d;
+    --code-bg: #161b22;
+  }
+}
+
+body {
+  max-width: 680px;
+  margin: 48px auto;
+  padding: 0 1.2rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  line-height: 1.65;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+h1, h2, h3 {
+  color: var(--text);
+}
+
+h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+h2 { font-size: 1.25rem; margin-top: 2.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.3rem; }
+h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+
+p, ul { margin: 0.8rem 0; }
+ul { padding-left: 1.2rem; }
+li { margin-bottom: 0.4rem; }
+
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+code {
+  background: var(--code-bg);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+#+end_src
